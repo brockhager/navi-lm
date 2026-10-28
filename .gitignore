@@ -1,0 +1,7 @@
+artifacts/
+data/
+checkpoints/
+*.pt
+*.pth
+__pycache__/
+.venv/
