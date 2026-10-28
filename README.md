@@ -13,6 +13,7 @@ An open research project on more compute-efficient language model architectures,
 
 ## Docs
 
+- [Changelog](CHANGELOG.md)
 - [Index](docs/00-index.md)
 - [Summary](docs/01-summary.md)
 - [Handoff and background](docs/handoff.md)

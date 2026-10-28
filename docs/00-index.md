@@ -7,6 +7,7 @@
 | [handoff.md](handoff.md) | Full handoff: goal, hardware, background, corrections, plan, open decisions |
 | [SETUP.md](SETUP.md) | WSL2 + PyTorch (Blackwell) setup checklist and NCM clone/evaluate steps |
 | [EXPERIMENTS.md](EXPERIMENTS.md) | Candidate experiments, rationale, run log |
+| [../CHANGELOG.md](../CHANGELOG.md) | Dated log of the steps done so far |
 
 ## External links (checked 2026-10-28)
 
