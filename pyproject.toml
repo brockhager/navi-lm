@@ -1,0 +1,14 @@
+[project]
+name = "navi-lm"
+version = "0.0.1"
+description = "Open research on compute-efficient language models, built on NCM."
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = ["numpy", "torch", "transformers"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["navi_lm*"]

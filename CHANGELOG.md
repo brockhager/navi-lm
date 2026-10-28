@@ -26,6 +26,17 @@ A running log of what was done, newest first. Results live in [docs/EXPERIMENTS.
 ### Docs
 - Added the project docs: index, summary, handoff and background, setup checklist, and experiment plan with a run log.
 
+### Data
+- Inspected the released tokenized LM1B data: `uint16` BERT-uncased token streams in fixed 128-token chunks (7,087,759 train, 71,825 valid; about 907M training tokens), with sentences joined by `[CLS]`.
+
+### Code (written, not yet run)
+- `navi_lm/ar_model.py`: decoder-only AR baseline sized like the NCM LM1B generator (12 layers, 12 heads, width 768, RoPE, dropout 0.1).
+- `navi_lm/data.py`: memory-mapped chunk loader and the BOS-shifted inputs/targets.
+- `navi_lm/genppl.py`: generative perplexity and entropy, ported from NCM's `genppl_flm` protocol so AR and NCM numbers are comparable.
+- `scripts/train_ar.py`: training loop with a token budget, bf16, cosine schedule, validation loss, tokens/sec and peak memory logging.
+- `scripts/eval_ar.py`: samples 5 seeds x 256 and scores them with GPT-2 large.
+
 ### Next
-- Inspect the format of the tokenized LM1B data.
-- Write the matched autoregressive baseline training script.
+- Smoke-test the training script on a 2M-token budget.
+- Measure tokens/sec and VRAM, then pick the token budget for the real AR run.
+- Run the AR baseline and compare with NCM at equal compute.
