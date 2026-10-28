@@ -29,14 +29,18 @@ A running log of what was done, newest first. Results live in [docs/EXPERIMENTS.
 ### Data
 - Inspected the released tokenized LM1B data: `uint16` BERT-uncased token streams in fixed 128-token chunks (7,087,759 train, 71,825 valid; about 907M training tokens), with sentences joined by `[CLS]`.
 
-### Code (written, not yet run)
+### Code
 - `navi_lm/ar_model.py`: decoder-only AR baseline sized like the NCM LM1B generator (12 layers, 12 heads, width 768, RoPE, dropout 0.1).
 - `navi_lm/data.py`: memory-mapped chunk loader and the BOS-shifted inputs/targets.
 - `navi_lm/genppl.py`: generative perplexity and entropy, ported from NCM's `genppl_flm` protocol so AR and NCM numbers are comparable.
 - `scripts/train_ar.py`: training loop with a token budget, bf16, cosine schedule, validation loss, tokens/sec and peak memory logging.
 - `scripts/eval_ar.py`: samples 5 seeds x 256 and scores them with GPT-2 large.
 
+### Smoke test
+- Ran `train_ar.py` on a 2M-token budget (RTX 5060, bf16, no `torch.compile`, micro-batch 16): 108.5M parameters, about 26k tokens/sec, 3.5 GB peak VRAM. Validation loss fell from 8.75 to 6.48 (perplexity 6,297 to 651) over 122 steps, so training works end to end. At this speed 200M tokens takes about 2.1 hours.
+
+- Re-ran with `--compile --micro_bs 32`: about 37.8k tokens/sec (+42%), 4.2 GB peak VRAM, same loss (full validation 6.455 vs 6.447). 200M tokens would take about 1.5 hours.
+
 ### Next
-- Smoke-test the training script on a 2M-token budget.
-- Measure tokens/sec and VRAM, then pick the token budget for the real AR run.
+- Run the AR baseline (seed 42, 200M tokens, `--compile --micro_bs 32`), then `eval_ar.py` for Gen. PPL and entropy.
 - Run the AR baseline and compare with NCM at equal compute.
