@@ -2,6 +2,21 @@
 
 A running log of what was done, newest first. Results live in [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md).
 
+## 2026-10-29
+
+### AR baseline, first real run
+- Trained the matched autoregressive baseline on LM1B: 108.5M parameters, 200M tokens (seed 42), `--compile --micro_bs 32`. Took 88 minutes at about 37.9k tokens/sec and 4.2 GB peak VRAM. Full-validation loss 3.723 (perplexity 41.4).
+- Scored it with the same protocol as the NCM reproduction (5 seeds x 256 samples, GPT-2 large): generative perplexity **122.20** (+/- 2.24), entropy 4.326. NCM's released model scores 93.38 at entropy 4.313.
+- Caveat: not an equal-compute comparison. NCM's generator saw about 6.5B token positions (13.4B including the tokenizer); this AR run saw 200M. The AR model is also still improving, and NCM's sampler uses extra frequency and adjacency penalties that the plain AR sampler does not. So this is a starting point, not a verdict on NCM vs AR.
+- Only one training seed so far; the 5 seeds are sampling seeds.
+
+### Status
+- Paused after the first AR baseline. Work on an equal-compute comparison is on hold.
+
+### Open options when work resumes
+- Write the NCM generator training loop and train both models at the same token budget (the repo has no training loop).
+- Or train the AR model much longer (about 7 hours per 1B tokens at the current speed).
+
 ## 2026-10-28
 
 ### Repos
